@@ -108,7 +108,9 @@ body {
 
 <body>
 
-<audio id="music" src="musica.mp3" loop></audio>
+<audio id="music" controls playsinline>
+    <source src="musica.mp3" type="audio/mpeg">
+</audio>
 
 <div class="card">
     <div class="text">
@@ -125,7 +127,7 @@ body {
 </div>
 
 <script>
-const startDate = new Date("2021-05-06T00:00:00");
+const startDate = new Date("2023-01-01T00:00:00");
 const timer = document.getElementById("timer");
 
 function updateTimer() {
@@ -161,4 +163,3 @@ playBtn.addEventListener("click", () => {
 
 </body>
 </html>
-
