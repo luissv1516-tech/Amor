@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para el amor de mi vida</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(180deg, #ff4f9a, #b8005c);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background: #f6efe6;
+    width: 90%;
+    max-width: 900px;
+    border-radius: 20px;
+    padding: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.text {
+    width: 45%;
+    color: #333;
+}
+
+.text h2 {
+    margin: 0 0 20px;
+    font-weight: normal;
+}
+
+.timer {
+    font-size: 1.2rem;
+}
+
+.tree {
+    position: relative;
+    width: 45%;
+    height: 300px;
+}
+
+.trunk {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 20px;
+    height: 120px;
+    background: #7a4a2e;
+    transform: translateX(-50%);
+}
+
+.heart {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    width: 220px;
+    height: 200px;
+    transform: translateX(-50%);
+}
+
+.leaf {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: red;
+    transform: rotate(45deg);
+    animation: float 6s infinite ease-in-out;
+}
+
+.leaf::before,
+.leaf::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: red;
+    border-radius: 50%;
+}
+
+.leaf::before {
+    top: -7px;
+    left: 0;
+}
+
+.leaf::after {
+    left: -7px;
+    top: 0;
+}
+
+@keyframes float {
+    0% { transform: translateY(0) rotate(45deg); opacity: 1; }
+    100% { transform: translateY(80px) rotate(45deg); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <div class="text">
+        <h2>Para el amor de mi vida:</h2>
+        <div class="timer" id="timer"></div>
+    </div>
+
+    <div class="tree">
+        <div class="heart" id="heart"></div>
+        <div class="trunk"></div>
+    </div>
+</div>
+
+<script>
+// FECHA DE INICIO (CAMBIA ESTO)
+const startDate = new Date("2021-05-06T00:00:00");
+
+function updateTimer() {
+    const now = new Date();
+    let diff = now - startDate;
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    diff %= (1000 * 60 * 60 * 24);
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    diff %= (1000 * 60 * 60);
+    const minutes = Math.floor(diff / (1000 * 60));
+    const seconds = Math.floor((diff / 1000));
+
+    document.getElementById("timer").innerHTML =
+        `Mi amor por ti comenzó hace<br>
+        <b>${days}</b> días <b>${hours}</b> horas <b>${minutes}</b> minutos <b>${seconds}</b> segundos 💕`;
+}
+
+setInterval(updateTimer, 1000);
+updateTimer();
+
+// CREAR HOJAS EN FORMA DE CORAZÓN
+const heart = document.getElementById("heart");
+
+for (let i = 0; i < 120; i++) {
+    const leaf = document.createElement("div");
+    leaf.className = "leaf";
+
+    const x = Math.random() * 200;
+    const y = Math.random() * 180;
+
+    leaf.style.left = x + "px";
+    leaf.style.top = y + "px";
+    leaf.style.animationDelay = Math.random() * 5 + "s";
+
+    heart.appendChild(leaf);
+}
+</script>
+
+</body>
+</html>
