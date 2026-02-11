@@ -5,12 +5,95 @@
 <title>Para el amor de mi vida</title>
 
 <style>
-    <audio id="music" src="musica.mp3" loop></audio>
-    #playBtn {
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    font-family: 'Arial', sans-serif;
+}
+
+.card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+}
+
+.text h2 {
+    color: white;
+    margin-bottom: 10px;
+}
+
+.timer {
+    color: white;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.tree {
+    position: relative;
+    margin: 30px auto;
+    width: 100px;
+    height: 150px;
+}
+
+.heart {
+    width: 80px;
+    height: 80px;
+    background: red;
     position: absolute;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 0;
+    left: 10px;
+    transform: rotate(-45deg);
+    animation: pulse 1.5s infinite;
+}
+
+.heart::before,
+.heart::after {
+    content: "";
+    width: 80px;
+    height: 80px;
+    background: red;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.heart::before {
+    top: -40px;
+    left: 0;
+}
+
+.heart::after {
+    left: 40px;
+    top: 0;
+}
+
+.trunk {
+    width: 20px;
+    height: 70px;
+    background: #5c4033;
+    position: absolute;
+    bottom: 0;
+    left: 40px;
+    border-radius: 10px;
+}
+
+@keyframes pulse {
+    0% { transform: rotate(-45deg) scale(1); }
+    50% { transform: rotate(-45deg) scale(1.1); }
+    100% { transform: rotate(-45deg) scale(1); }
+}
+
+#playBtn {
+    margin-top: 20px;
     background: #ff4f9a;
     color: white;
     border: none;
@@ -20,161 +103,49 @@
     cursor: pointer;
     box-shadow: 0 6px 15px rgba(0,0,0,0.3);
 }
-
-<button id="playBtn">▶ Reproducir música</button>
-
-body {
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(180deg, #ff4f9a, #b8005c);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.card {
-    background: #f6efe6;
-    width: 90%;
-    max-width: 900px;
-    border-radius: 20px;
-    padding: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.text {
-    width: 45%;
-    color: #333;
-}
-
-.text h2 {
-    margin: 0 0 20px;
-    font-weight: normal;
-}
-
-.timer {
-    font-size: 1.2rem;
-}
-
-.tree {
-    position: relative;
-    width: 45%;
-    height: 300px;
-}
-
-.trunk {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 20px;
-    height: 120px;
-    background: #7a4a2e;
-    transform: translateX(-50%);
-}
-
-.heart {
-    position: absolute;
-    bottom: 100px;
-    left: 50%;
-    width: 220px;
-    height: 200px;
-    transform: translateX(-50%);
-}
-
-.leaf {
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    background: red;
-    transform: rotate(45deg);
-    animation: float 6s infinite ease-in-out;
-}
-
-.leaf::before,
-.leaf::after {
-    content: "";
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    background: red;
-    border-radius: 50%;
-}
-
-.leaf::before {
-    top: -7px;
-    left: 0;
-}
-
-.leaf::after {
-    left: -7px;
-    top: 0;
-}
-
-@keyframes float {
-    0% { transform: translateY(0) rotate(45deg); opacity: 1; }
-    100% { transform: translateY(80px) rotate(45deg); opacity: 0; }
-}
 </style>
 </head>
 
 <body>
 
+<audio id="music" src="musica.mp3" loop></audio>
+
 <div class="card">
     <div class="text">
-        <h2>Para el amor de mi vida:</h2>
+        <h2>Para el amor de mi vida ❤️</h2>
         <div class="timer" id="timer"></div>
     </div>
 
     <div class="tree">
-        <div class="heart" id="heart"></div>
+        <div class="heart"></div>
         <div class="trunk"></div>
     </div>
+
+    <button id="playBtn">▶ Reproducir música</button>
 </div>
 
 <script>
-// FECHA DE INICIO (CAMBIA ESTO)
 const startDate = new Date("2021-05-06T00:00:00");
+const timer = document.getElementById("timer");
 
 function updateTimer() {
     const now = new Date();
-    let diff = now - startDate;
+    const diff = now - startDate;
 
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    diff %= (1000 * 60 * 60 * 24);
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    diff %= (1000 * 60 * 60);
-    const minutes = Math.floor(diff / (1000 * 60));
-    const seconds = Math.floor((diff / 1000));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
 
-    document.getElementById("timer").innerHTML =
-        `Mi amor por ti comenzó hace<br>
-        <b>${days}</b> días <b>${hours}</b> horas <b>${minutes}</b> minutos <b>${seconds}</b> segundos 💕`;
+    timer.textContent =
+        `${days} días, ${hours} h, ${minutes} m, ${seconds} s`;
 }
 
 setInterval(updateTimer, 1000);
 updateTimer();
 
-// CREAR HOJAS EN FORMA DE CORAZÓN
-const heart = document.getElementById("heart");
-
-for (let i = 0; i < 120; i++) {
-    const leaf = document.createElement("div");
-    leaf.className = "leaf";
-
-    const x = Math.random() * 200;
-    const y = Math.random() * 180;
-
-    leaf.style.left = x + "px";
-    leaf.style.top = y + "px";
-    leaf.style.animationDelay = Math.random() * 5 + "s";
-
-    heart.appendChild(leaf);
-}
-    const music = document.getElementById("music");
+// 🎵 Música
+const music = document.getElementById("music");
 const playBtn = document.getElementById("playBtn");
 
 playBtn.addEventListener("click", () => {
@@ -186,8 +157,8 @@ playBtn.addEventListener("click", () => {
         playBtn.textContent = "▶ Reproducir música";
     }
 });
-
 </script>
 
 </body>
 </html>
+
